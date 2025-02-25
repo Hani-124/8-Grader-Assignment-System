@@ -11,9 +11,13 @@ Decisions:
 - Technologies that we use are: Figma, React.js, Node.js, Express, mongoDB/mySQL
 
 Action Items: 
-- Project Timeline: Haeun
-- Project Specifications for Front-end: Yosep
-- Project Specifications for Back-end: Havish
+Haeun: 
+- Project Timeline
+Yosep:
+- Project Specifications for Front-end
+Havish:
+- Project Specifications for Back-end
+
 
 <2/11/25> 5:15 pm - 7:00 pm
 Attendance: Haeun, Yosep, Havish (Leader), Sanved, Thennannamalai (TA), Prof.Alagar (Instructor)
@@ -22,10 +26,15 @@ Decisions:
 - Havish will be the team leader for the first 3 weeks
 
 Action Items: 
-- Setup the GitHub project: Haeun
-- Update the job board: Yosep
-- Research more about DB: Havish
-- Play with Strings: Sanved
+Haeun:
+- Setup the GitHub project
+Yosep:
+- Update the job board
+Havish:
+- Research more about DB
+Sanved:
+- Play with Strings
+
 
 <2/17/25> 6:10 pm - 7:00 pm
 Attendance: Haeun, Yosep, Havish (Leader), Sanved
@@ -36,11 +45,51 @@ Decisions:
 Action Items:
 - 
 
+
 <2/18/25> 1:00 pm - 2:10 pm
 Attendance: Yosep, Havish (Leader), Sanved
 
 Decisions: 
+- 
 
 Action Items:
+- 
+
+
+<2/18/25> 5:37 pm - 6:45 pm
+Attendance: Haeun, Yosep, Havish (Leader), Sanved, Thennannamalai (TA)
+
+Decisions: 
+- Weekly reports will be stored in a GitHub directory
+- Each team member to complete assigned tasks and report progress
+
+Action Items: 
+Havish:
+- Research Python tools for database access
+- Write a Python program to:
+    - Read data from a database
+    - Export data into a CSV file
+- Learn how to use Python database connectors and implement a working connection
+Sanved: 
+- Repeat last week’s tasks using Python 
+- Write a Python program to:
+    - Read text from a PDF file (use own resume)
+    - Explore Flask and Django frameworks
+Haeun: 
+- Complete design tasks by Tuesday:
+    - Login page
+    - Input page
+    - Output page
+    - Manual input page
+Yosep: 
+- File Upload Mechanisms:
+    - Implement three different upload mechanisms
+    - Process CSV files and send them to the backend
+- Backend Setup:
+    - Set up a backend server
+    - Start a second server using Node.js or a simple tool
+    - Implement an HTTP request using the POST protocol to send three files.
+    - Send files to localhost and display received files.
+
 
 
