@@ -1,6 +1,4 @@
-## 8-Grader-Assignment-System
-* This will be our github repository
-* Please make your own brach when you edit or upload
+# 8-Grader-Assignment-System
 
 ## Weekly Report
 Please send your weekly report to the team leader by Monday!
