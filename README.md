@@ -3,6 +3,7 @@
 
 ## Weekly Report
 Please send your weekly report to the team leader by Monday!
+
 Your report includes: 
 * What you worked on throughout a week
 * Total time worked
