@@ -102,5 +102,28 @@ Action Items:
 - Each team member will review their assigned sections and finalize them
 
 
-<3/4/25> 5:30 pm - 
+<3/4/25> 5:30 pm - 6:50 pm
+Attendance: Haeun (leader), Yosep, Havish, Sanved, Thennannamalai (TA)
+
+Decisions: 
+- We will have a meeting on coming Saturday at 1pm
+
+Action Items:
+Haeun: 
+- finish design in figma for manual edit page
+- write an echo server in python using django (atleast have it setup and running without the echo portion)
+- setup connection to ngrok
+
+Yosep: 
+- Finish implementation of pages
+- try to use dummy data to view the records in the table and manual edit table.
+- set up ngrok for frontend
+
+Havish:
+- continue with writing python program to import data from excel/csv into database
+
+Sanved:
+- continue with writing python code to read your resume into the program and display it as a string
+
+
 
