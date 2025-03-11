@@ -1,5 +1,8 @@
 dependencies
 
+
+ "https://9cc7-2600-100c-a21b-abe-e5da-13dd-bc92-c966.ngrok-free.app/upload"
+
 {
   "name": "vite-project",
   "private": true,
