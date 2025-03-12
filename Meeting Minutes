@@ -44,14 +44,14 @@ Decisions:
 - review the projects done 
 
 Action Items:
-- 
+
 
 
 <2/18/25> 1:00 pm - 2:10 pm
 Attendance: Yosep, Havish (Leader), Sanved
 
 Decisions: 
-- 
+
 
 Action Items:
 
@@ -92,6 +92,34 @@ Yosep:
     - Send files to localhost and display received files.
 
 
+<2/25/25> 5:30 pm - 6:40 pm
+Attendance: Haeun (leader), Yosep, Havish, Sanved, Thennannamalai (TA)
+
+Decisions:
+- upload project proposal in GitHub 
+- team leader upload weekly status report everyweek in GitHub
+
+Action Items:
+Haeun: 
+- change display page excel sheet to a table 
+- make different views
+- complete design pages
+
+Yosep: 
+- downloading files from backend using frontend
+- start implanting designs from haeun
+
+Havish:
+- adding data to database
+- convert excel file into database
+- import data from excel into database
+
+Sanved:
+- write a python program that loads pdf files
+- write code that separates each candidate
+
+
+
 <3/4/25> 1:00 pm - 1:45 pm
 Attendance: Haeun (leader), Yosep, Havish, Sanved
 
@@ -126,4 +154,11 @@ Sanved:
 - continue with writing python code to read your resume into the program and display it as a string
 
 
+<3/11/25> 5:30 pm - 6:40 pm
+Attendance: Haeun (Leader), Yosep, Havish, Sanved, Thennannamalai (TA), Prof.Alagar (Instructor)
+
+Decisions: 
+
+
+Action Items:
 
