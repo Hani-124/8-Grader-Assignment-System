@@ -5,9 +5,10 @@ import * as XLSX from "xlsx";
 function DisplayPage() {
   const [data, setData] = useState([]);
   const [filter, setFilter] = useState("all");
+  const [showDownloadPopup, setShowDownloadPopup] = useState(null);
+  const [fileName, setFileName] = useState("");
   const navigate = useNavigate();
 
-  // Load the Excel file
   useEffect(() => {
     fetch("/courses_assignment_final_reasoned.xlsx")
       .then((response) => response.blob())
@@ -25,7 +26,6 @@ function DisplayPage() {
       .catch((error) => console.error("Error loading Excel file:", error));
   }, []);
 
-  // Filter logic
   const filteredData = useMemo(() => {
     return data.filter((row) => {
       if (filter === "all") return true;
@@ -36,7 +36,6 @@ function DisplayPage() {
     });
   }, [data, filter]);
 
-  // Define visible columns based on the selected filter
   const columns = useMemo(() => {
     if (filter === "all") {
       return ["Course Number", "Professor Name", "Assigned Grader", "Grader Major"];
@@ -50,15 +49,21 @@ function DisplayPage() {
     return [];
   }, [filter]);
 
+  const downloadFile = (format) => {
+    const worksheet = XLSX.utils.json_to_sheet(filteredData);
+    const workbook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(workbook, worksheet, "Sheet1");
+    XLSX.writeFile(workbook, `${fileName}.${format}`);
+    setShowDownloadPopup(null);
+    setFileName("");
+  };
+
   return (
     <div className="flex flex-col items-start min-h-screen w-screen bg-gradient-to-b from-blue-300 to-white p-6">
-      {/* Header (Moved to the left) */}
       <p className="text-2xl font-semibold text-blue-800 mb-4 ml-16">DOWNLOAD RESULT</p>
 
       <div className="flex w-5/6 gap-12 ml-16">
-        {/* Left Side: Filter + Table */}
         <div className="w-4/5">
-          {/* Filter Section */}
           <div className="mb-4">
             <label className="text-sm font-medium text-gray-700 block mb-1">Filter</label>
             <select
@@ -72,7 +77,6 @@ function DisplayPage() {
             </select>
           </div>
 
-          {/* Table Display in Box (Wider Table) */}
           <div className="bg-white shadow-lg rounded-lg border border-gray-300 w-full">
             <div className="overflow-y-auto max-h-96">
               <table className="w-full text-left border-collapse">
@@ -105,26 +109,41 @@ function DisplayPage() {
           </div>
         </div>
 
-        {/* Right Side: Buttons */}
-        <div className="flex flex-col gap-6 w-1/4 mt-[80px]">  
-        {/* Edit Table Button */}
-        <button className="w-full py-2 border border-gray-400 bg-white text-gray-800 font-semibold shadow hover:bg-gray-200 transition"
-        onClick={() => navigate("/manual-edit")}
-        >
+        <div className="flex flex-col gap-6 w-1/4 mt-[80px]">
+          <button
+            className="w-full py-2 border border-gray-400 bg-white text-gray-800 font-semibold shadow hover:bg-gray-200 transition"
+            onClick={() => navigate("/manual-edit")}
+          >
             EDIT TABLE
-        </button>
+          </button>
 
-        {/* Download CSV */}
-        <button className="w-full py-2 bg-gradient-to-r from-blue-700 to-indigo-500 text-white font-semibold shadow hover:brightness-110 transition mt-8">
+          <button className="w-full py-2 bg-gradient-to-r from-blue-700 to-indigo-500 text-white font-semibold shadow hover:brightness-110 transition mt-8" onClick={() => setShowDownloadPopup("csv")}>
             DOWNLOAD CSV
-        </button>
+          </button>
 
-        {/* Download XLSX */}
-        <button className="w-full py-2 bg-gradient-to-r from-blue-700 to-indigo-500 text-white font-semibold shadow hover:brightness-110 ">
+          <button className="w-full py-2 bg-gradient-to-r from-blue-700 to-indigo-500 text-white font-semibold shadow hover:brightness-110" onClick={() => setShowDownloadPopup("xlsx")}>
             DOWNLOAD XLSX
-        </button>
+          </button>
         </div>
       </div>
+
+      {showDownloadPopup && (
+          <div 
+          className="fixed inset-0 flex justify-center items-center" 
+          style={{ backgroundColor: "rgba(0, 0, 0, 0.2)" }}
+          >        
+          <div className="bg-white p-6 rounded shadow-lg">
+            <h2 className="mb-4">Do you want to save the result file?</h2>
+            <div className="mb-4">
+              <input type="text" className="border px-2 py-1" placeholder="File Name" value={fileName} onChange={(e) => setFileName(e.target.value)} />.{showDownloadPopup}
+            </div>
+            <div className="flex gap-2 justify-end">
+              <button className="bg-gray-300 px-4 py-2" onClick={() => setShowDownloadPopup(null)}>Cancel</button>
+              <button className="bg-blue-700 text-white px-4 py-2" onClick={() => downloadFile(showDownloadPopup)}>Download</button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
