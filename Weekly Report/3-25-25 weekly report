@@ -1,0 +1,36 @@
+weekly report 
+
+Team member: Sanved Paladhi
+Hours worked: 2-3 hours
+Tasks completed: 
+Wrote the python code to read my resume and got the data extracted successfully. 
+uploaded the code to github.  
+Extracted each of the candidates resumes from handshake and got each of the candidate’s resumes stored in an array.
+Tasks for next week: 
+
+Team member: Havish Chaganti
+Hours worked:6-7 hours
+Tasks completed: 
+
+Created 2 programs for doing database to excel and excel to database using config files
+
+Team member:Yosep Ha
+Hours worked: 9 hours
+Tasks completed: 
+
+created 3 different upload section
+finished display, manual edit page
+tested using gemini api to assign graders
+
+Tasks for next week:
+algorithm
+
+Team member: Haeun Kim
+Hours worked: 7 hours
+Tasks completed: 
+ 
+created echo server using django
+
+Tasks for next week:
+ 
+connect frontend to django backend
