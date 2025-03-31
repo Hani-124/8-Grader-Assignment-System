@@ -1,0 +1,347 @@
+Resume 1:
+ first last
+entry level software developer
+work experience
+______________________________________________________________________
+resume worded, new york, ny
+entry level software developer
+01/2015 – present
+●
+created new features to rw's spa network that allowed 2.6k users to
+retrieve data about a web path utilizing google maps.
+●
+repaired a bug that reduced 800 user complaints on the company's
+library website by 82%.
+●
+created a feature that improved the click-through rate of rw's
+website by 75%.
+●
+provided networking, account maintenance, and desktop support to
+1.8k customers.
+growthsi, san francisco, ca
+desktop support engineer
+06/2010 – 12/2014
+●
+create processes that enable online access to community forums on
+growthsi website, improving internet traffic by 30%.
+●
+resolved support calls from 1.1k end-users, boosting customer
+satisfaction rating by 73%.
+volunteering activities and extracurriculars
+______________________________________________________________________
+resume worded’s business society, new york, ny
+tech blogger
+06/2009 – 04/2010
+●
+authored 15 software engineering articles called “the abcs of
+coding.”
+●
+taught weekend coding lessons to 200 community children for two
+months.
+projects
+______________________________________________________________________
+image detection app
+05/2009
+●
+created an app that removed the bottleneck during software testing,
+decreasing the time needed for testing by 50%.
+●
+designed a blueprint for an image-to-voice survival app for 200
+visually impaired people.
+web application booster
+04/2009
+●
+created a web application that provides real-time data to 1m
+customers in inaccessible regions of europe.
+●
+established that any website traffic can be increased by 94% using
+php/mysql framework.
+contact
+______________________________
+• raleigh, nc (open to remote)
+• +1-234-456-789
+• email@resumeworded.com
+• linkedin.com/in/username
+• github.com/resumeworded
+skills
+______________________________
+hard skill:
+• coding (advanced)
+• debugging (experienced)
+• software design and testing
+• web development
+• rentals
+programming languages:
+• javascript
+• python
+• c++
+tools and software:
+• git
+• ansible
+• loadrunner
+• junit
+• selenium
+• don’t forget to use resume
+worded to scan your resume
+before you send it off (it’s free and
+proven to get you more jobs)
+education
+______________________________
+resume worded university
+bachelor of science
+computer science
+boston, ma — 05/2010
+awards: resume worded teaching
+fellow (only 5 awarded to class), dean’s
+list 2012 (top 10%)
+other
+_____________________________
+• microsoft certified solutions
+developer.
+• microsoft certified solutions
+expert.
+• oracle certified java se 7
+programmer. 
+ --------------------------------------------------------------------------------
+Resume 2:
+ dan clark
+soȅware engineer
+out the box thinking soȅware engineer with expertise in java, t-sql, and
+c#.net and proven integration problem-solving tenure of 10 years. skilled in
+developing systems architecture, writing requirement specifications, and user
+documentation training manuals. holds a masters degree in computer science.
+senior soȅware engineer at equinox
+december 2013  –  march 2019
+translate user needs into easy-to-understand soȅware solutions via client
+workshops and webinars which resulted in closing deals for the sales team of
+more than $500k in value. received  sales solutions instigator award for three
+years in a row for writing codes to automate sales presentation
+applications.databases: mysql, oracle, access, sap
+soȅware: microsoȅ oﬀice, remedy, microsoȅ sql server, db artisan, eclipse,
+visual studio.net, frontpage
+languages: c#, java, visual basic, asp, xml, xsl, jws, sql, and t-sql
+develop soȅware solutions by following the soȅware development life cycle:
+documenting information requirements; conferring with users; investigating
+systems flow, data usage, and work processes; and studying problem areas
+determine operational feasibility by evaluating analysis, problem definition,
+requirements, solution development, and proposed solutions
+develop documentation, flowcharts, layouts, diagrams, charts, code
+comments, and clear code
+determine system specifications and standards before installing product
+solutions 
+conduct system analysis and recommend changes in policies and
+procedures
+mentor and develop junior and mid-level soȅware engineers 
+project soȅware engineer at budweiser, st louis
+march 2012  –  october 2013
+solve technical issues within 30 minutes on average by creating continuous bug
+fixes daily for the newly implemented erm soȅware for the first 30 days aȅer
+implementation.
+programming computer controls which are used to activate machinery in
+manufacturing industries for example plc and agile bases systems
+develop a project development plan together with the business analyst
+setting up new it systems, networks and intranets for clients
+modifying and updating current soȅware applications
+writing documentation and training manuals
+testing the model for compatibility and installation problems
+profile
+employment history
+details
+1515 pacific ave, los angeles, ca
+90291, united states
+email@example.com
+place of birth
+san antonio
+nationality
+american
+driving license
+full
+links
+linkedin
+languages
+english
+mandarin
+dutch
+skills
+r
+python
+c#.net
+html
+javascript
+oracle
+linux
+ruby
+embedded soȅware
+systems architecture design
+smalltalk
+visual studio
+
+conduct debugging and fix system incompatibilities arising aȅer new
+soȅware was implemented
+junior level soȅware engineer at coca cola, san diego
+july 2011  –  december 2011
+assisting senior soȅware engineer with designing algorithms for error analysis
+purposes on the intel i32 servers reducing systems downtime by 28% aȅer
+running those algorithms.
+assist in developing soȅware solutions to meet customer requirements 
+participate in the full development life cycle of products including
+requirement analysis, architectural design and component soȅware features
+through to implementation of test plans and documenting final product
+solution
+assist in groundwork development of applications written in php,
+javascript, perl, c++, c#, or java. 
+other duties include reviewing code, writing documentation, and following
+test procedures
+also involved with ui (user interface) design, graphics development, and 3-d
+programming
+masters degree in computer science, kaplan university, orlando
+march 2014  –  december 2015
+majors: it infrastructure, game apps design
+bachelor of science in electrical and computer engineering,
+carnegie mellon university, pittsburgh
+july 2011  –  december 2013
+majors: electrical engineering, computer engineering
+overall gpa: 3.21/4.00
+associates degree in soȅware engineering, milwaukee school of
+engineering, milwaukee
+july 2008  –  march 2010
+certified network professional (cnp), florida institute of technology
+february 2010  –  december 2011
+certificate in multi-platform soȅware development, institute for
+certification of computer professionals (iccp)
+march 2019  –  present
+education
+courses
+protocol testing
+user documentation
+training manuals 
+ --------------------------------------------------------------------------------
+Resume 3:
+ first last
+react developer
+bismarck, north dakota  •  +1-234-456-789  •  professionalemail@resumeworded.com  •  linkedin.com/in/username
+work experience
+_______________________________________________________________________________________________________________
+resume worded, new york, ny
+09/2015 – present
+education technology startup with 50+ employees and $100m+ annual revenue
+react developer
+●
+decreased load times by 58% using isomorphic react and node.js for 13 web applications one month after
+taking over the project.
+●
+partnered with a team of 5 developers to create 14 e-commerce websites using react and nodejs in the
+first month on the job.
+●
+reduced the time spent on development by 73% by creating maintainable reusable components.
+●
+created an interactive and user-friendly website experience by working with a team of 25 developers for
+one month.
+polyhire, london, united kingdom
+10/2012 – 08/2015
+nyse-listed recruitment and employer branding company
+mobile application developer
+●
+created a web service used by 200k clients and generates $100k monthly within 20 days after inception.
+●
+devised a system to host mobile applications using polyhire servers instead of remote, leading to cost
+savings of $940k per month.
+●
+designed a video game idea for 2m children on ubuntu-based pcs scaled for large tv displays across the
+country.
+growthsi, london, united kingdom
+07/2010 – 09/2012
+career training and membership saas with 150,000 paying users
+mobile developer
+●
+launched a new mobile app, bmi first, that generated 100k downloads and was featured in time magazine
+as the  “app of the year."
+●
+created a mobile game 'spacex' program that was downloaded 200k times and played by 15m people.
+●
+established objective-c libraries & apis, utilizing oop and modeled data structures that can be used on 48
+different apps.
+ui developer, abc company, london, united kingdom
+10/2008 – 06/2009
+programmer, xyz company, london, united kingdom
+07/2005 – 09/2008
+education
+_______________________________________________________________________________________________________________
+resume worded university, new york, ny
+06/2005
+bachelor of science — computer science
+skills
+_______________________________________________________________________________________________________________
+hard skills: seo integration (advanced), unit testing (experienced), tdd/bdd, ui development, debugging, coding.
+programming languages: php, mysql, mongodb (advanced), c++, java, jsx, angular, sigma, devops, junit. 
+ --------------------------------------------------------------------------------
+Resume 4:
+ first last
+cheyenne, wyoming • +1-234-456-789 • professionalemail@resumeworded.com • linkedin.com/in/username
+professional experience
+resume worded, new york, ny
+jun 2018 – present
+software developer
+●
+created a new system that tracked and examined customer data, increasing sales by 23% within 32 days of
+implementation.
+●
+conceived and introduced an automated email response system, which reduced response time to 3k email
+messages by 71%.
+●
+saved 13 person-hours daily by writing scripts to automate 25 tasks like database backups, restores, and server
+provisioning.
+●
+developed a user interface as a single-page application using react and mobx, which increased the
+productivity of 10k users by 87%.
+growthsi, new york, ny
+jan 2015 – may 2018
+software tester
+●
+introduced the idea of bug fixing during graveyard shifts, which led to a quarterly savings of $950k in labor
+costs.
+●
+championed a major decision to abandon 17 projects by discovering critical defects in a high-level application
+worth $2m
+●
+completed and achieved the launch of 15 products within 35 days with a moderate error rate of 1%, an
+improvement over previous years.
+●
+performed penetration tests with zero-day vulnerability discovery devices on 25 internally developed
+applications; identified that 75% of the software code was vulnerable to attack.
+resume worded exciting company, san diego, ca
+june 2010 – dec 2014
+it support engineer
+●
+overhauled growthsi help desk by reducing average ticket time from 7 business days to 30 minutes in the
+first month of employment.
+●
+contributed to developing a new access system that reduced 65% of data collection by completing 25 projects
+on schedule with zero server downtime.
+●
+established a naming convention for all files and identified 18 process improvement opportunities, reducing
+helpdesk calls from 27% of total it calls to <2%.
+●
+developed an automated software to resolve customers' issues based on user performance analysis and error
+reports; reduced resolution time from 24 hours to 15 minutes.
+●
+saved the company over $78k in repair costs by performing data recovery after its server was destroyed by
+malware.
+education
+resume worded university, san francisco, ca
+may 2010
+master of science; major in information technology
+skills
+●technical skills
+●industry knowledge
+●tools & software
+●docker products
+●software development
+●maven
+●web development
+●agile methodologies
+●microsoft visual studio
+●coding.
+●.net framework.
+●jenkins 
+ --------------------------------------------------------------------------------
