@@ -162,3 +162,35 @@ Decisions:
 
 Action Items:
 
+
+<3/25/25> 5:30 pm - 6:40 pm
+Attendance: Haeun (Leader), Yosep, Havish, Sanved, Thennannamalai (TA),
+
+Decisions: 
+
+
+Action Items:
+Yosep: implement different AI API to use AI to grade
+
+haeun: setup API endpoint in Django
+    - integrating backend to frontend
+	- for file/upload
+
+sanved:
+    -get resume and get the resume content into one text, right now its not getting correct output, fix it
+
+Havish:
+    - object file, excel to database
+	- edit the file to get config object
+
+    - file_db accept config object
+    everything should be in single file, DataAccessors.py
+
+
+<4/1/25> 5:30 pm -  pm
+
+
+
+
+
+
