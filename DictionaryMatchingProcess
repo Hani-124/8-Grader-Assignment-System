@@ -1,0 +1,67 @@
+# -*- coding: utf-8 -*-
+"""
+Created on Tue Mar 11 12:23:49 2025
+
+@author: shuvr
+"""
+
+import fitz  # PyMuPDF
+import re
+import os
+import zipfile
+
+def extract_resumes_with_names(zip_path, extract_folder):
+    # Extract the ZIP file
+    with zipfile.ZipFile(zip_path, 'r') as zip_ref:
+        zip_ref.extractall(extract_folder)
+    
+    pdf_files = [os.path.join(extract_folder, f) for f in os.listdir(extract_folder) if f.endswith(".pdf")]
+    resume_dict = {}
+
+    name_pattern = re.compile(r'\b([A-Z][a-z]+(?:\s+[A-Z][a-z]+)+)\b')  # Matches full names like "John Smith"
+
+    for pdf_path in pdf_files:
+        doc = fitz.open(pdf_path)
+        current_resume = ""
+        first_resume_detected = False
+
+        for page in doc:
+            page_text = page.get_text("text")
+            lower_text = page_text.lower()
+
+            # Detect email as indicator of new resume
+            if re.search(r'\b[\w.-]+@[\w.-]+\b', lower_text):
+                if first_resume_detected:
+                    # Extract candidate name
+                    name_match = name_pattern.search(current_resume)
+                    name = name_match.group(1) if name_match else f"Candidate_{len(resume_dict)+1}"
+                    resume_dict[name] = current_resume.strip()
+                    current_resume = page_text + "\n"
+                else:
+                    first_resume_detected = True
+                    current_resume = page_text + "\n"
+            else:
+                current_resume += page_text + "\n"
+
+        # Append the last resume
+        if current_resume.strip():
+            name_match = name_pattern.search(current_resume)
+            name = name_match.group(1) if name_match else f"Candidate_{len(resume_dict)+1}"
+            resume_dict[name] = current_resume.strip()
+
+        # Stop after collecting 4 resumes
+        if len(resume_dict) >= 4:
+            break
+
+    return resume_dict
+
+# Usage
+zip_path = "C:\\CS 4485.0W1\\documents20250326-22-r5fg10.zip"
+extract_folder = "C:\\CS 4485.0W1\\extracted_pdfs"
+
+try:
+    resumes = extract_resumes_with_names(zip_path, extract_folder)
+    for idx, (name, content) in enumerate(resumes.items()):
+        print(f"Resume {idx + 1} - {name}:\n{content}\n{'-'*80}")
+except FileNotFoundError as e:
+    print(e)
