@@ -40,20 +40,20 @@ Sanved:
 Attendance: Haeun, Yosep, Havish (Leader), Sanved
 
 Decisions: 
-- 
+- edit project proposal
+- review the projects done 
 
 Action Items:
-- 
+
 
 
 <2/18/25> 1:00 pm - 2:10 pm
 Attendance: Yosep, Havish (Leader), Sanved
 
 Decisions: 
-- 
+
 
 Action Items:
-- 
 
 
 <2/18/25> 5:37 pm - 6:45 pm
@@ -90,6 +90,107 @@ Yosep:
     - Start a second server using Node.js or a simple tool
     - Implement an HTTP request using the POST protocol to send three files.
     - Send files to localhost and display received files.
+
+
+<2/25/25> 5:30 pm - 6:40 pm
+Attendance: Haeun (leader), Yosep, Havish, Sanved, Thennannamalai (TA)
+
+Decisions:
+- upload project proposal in GitHub 
+- team leader upload weekly status report everyweek in GitHub
+
+Action Items:
+Haeun: 
+- change display page excel sheet to a table 
+- make different views
+- complete design pages
+
+Yosep: 
+- downloading files from backend using frontend
+- start implanting designs from haeun
+
+Havish:
+- adding data to database
+- convert excel file into database
+- import data from excel into database
+
+Sanved:
+- write a python program that loads pdf files
+- write code that separates each candidate
+
+
+
+<3/4/25> 1:00 pm - 1:45 pm
+Attendance: Haeun (leader), Yosep, Havish, Sanved
+
+Decisions: 
+- All team members will complete the project proposal timeline by this week
+
+Action Items:
+- Each team member will review their assigned sections and finalize them
+
+
+<3/4/25> 5:30 pm - 6:50 pm
+Attendance: Haeun (leader), Yosep, Havish, Sanved, Thennannamalai (TA)
+
+Decisions: 
+- We will have a meeting on coming Saturday at 1pm
+
+Action Items:
+Haeun: 
+- finish design in figma for manual edit page
+- write an echo server in python using django (atleast have it setup and running without the echo portion)
+- setup connection to ngrok
+
+Yosep: 
+- Finish implementation of pages
+- try to use dummy data to view the records in the table and manual edit table.
+- set up ngrok for frontend
+
+Havish:
+- continue with writing python program to import data from excel/csv into database
+
+Sanved:
+- continue with writing python code to read your resume into the program and display it as a string
+
+
+<3/11/25> 5:30 pm - 6:40 pm
+Attendance: Haeun (Leader), Yosep, Havish, Sanved, Thennannamalai (TA), Prof.Alagar (Instructor)
+
+Decisions: 
+- spend more time on the project
+
+Action Items:
+
+
+<3/25/25> 5:30 pm - 6:40 pm
+Attendance: Haeun (Leader), Yosep, Havish, Sanved, Thennannamalai (TA),
+
+Decisions: 
+
+
+Action Items:
+Yosep: implement different AI API to use AI to grade
+
+haeun: setup API endpoint in Django
+    - integrating backend to frontend
+	- for file/upload
+
+sanved:
+    -get resume and get the resume content into one text, right now its not getting correct output, fix it
+
+Havish:
+    - object file, excel to database
+	- edit the file to get config object
+
+    - file_db accept config object
+    everything should be in single file, DataAccessors.py
+
+
+<4/1/25> 5:30 pm -  pm
+
+
+
 
 
 
