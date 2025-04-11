@@ -10,26 +10,19 @@ function UploadPage() {
   const [downloadLinks, setDownloadLinks] = useState([]);
   const navigate = useNavigate();
 
-  const BASE_URL = "https://9bdb-2600-100c-a210-43e7-31f6-c900-badd-78f7.ngrok-free.app";
-  const allowedFormats = [".xlsx", ".csv", ".pdf"];
+  const BASE_URL = "https://nearby-lionfish-more.ngrok-free.app";
+  const allowedFormats = [".xlsx", ".csv", ".pdf", ".zip"];
 
   const handleFile = (fileList, type) => {
     const file = fileList[0];
-    if (
-      file &&
-      allowedFormats.some((format) =>
-        file.name.toLowerCase().endsWith(format)
-      )
-    ) {
-      setFiles((prev) => ({ ...prev, [type]: file }));
+    if (file && allowedFormats.some(ext => file.name.toLowerCase().endsWith(ext))) {
+      setFiles(prev => ({ ...prev, [type]: file }));
     } else {
       alert("Invalid file format. Please upload Excel, CSV, or PDF files.");
     }
   };
 
   const handleUpload = async () => {
-    console.log("UPLOAD button clicked ✅");
-
     const newLinks = [];
 
     for (const [key, file] of Object.entries(files)) {
@@ -46,26 +39,22 @@ function UploadPage() {
         });
 
         const result = await response.json();
-        console.log("📦 Response from backend:", result);
-
         if (response.ok && result.download_url) {
-          const fullLink = `${BASE_URL}${result.download_url}`;
-          newLinks.push({ name: file.name, link: fullLink });
-        } else {
-          console.error("❌ Upload failed or no download_url:", result);
+          newLinks.push({
+            name: file.name,
+            link: `${BASE_URL}${result.download_url}`,
+          });
         }
       } catch (error) {
         console.error(`❌ Upload error for ${file.name}:`, error);
       }
     }
 
-    console.log("✅ Final collected download links:", newLinks);
-
-    if (newLinks.length > 0) {
-      setDownloadLinks(newLinks);
-      navigate("/display"); // or comment this out if display page isn't ready yet
+    setDownloadLinks(newLinks);
+    if (newLinks.length) {
+      navigate("/display");
     } else {
-      alert("No files were uploaded. Please try again.");
+      alert("No files were uploaded.");
     }
   };
 
@@ -86,10 +75,7 @@ function UploadPage() {
             </h2>
             <div
               className="w-full p-6 border-2 border-dashed border-blue-500 bg-blue-50 flex flex-col items-center justify-center cursor-pointer hover:bg-blue-100 transition"
-              onDragOver={(e) => {
-                e.preventDefault();
-                e.dataTransfer.dropEffect = "copy";
-              }}
+              onDragOver={(e) => e.preventDefault()}
               onDrop={(e) => {
                 e.preventDefault();
                 handleFile(e.dataTransfer.files, type);
@@ -97,12 +83,9 @@ function UploadPage() {
               onClick={() => document.getElementById(type).click()}
             >
               <p className="text-gray-700 font-medium text-lg">
-                Drag & drop file or{" "}
-                <span className="text-red-600 font-semibold">Browse</span>
+                Drag & drop file or <span className="text-red-600 font-semibold">Browse</span>
               </p>
-              <p className="text-sm text-gray-500">
-                Supported formats: Excel, CSV, PDF
-              </p>
+              <p className="text-sm text-gray-500">Supported: Excel, CSV, PDF</p>
               <input
                 id={type}
                 type="file"
@@ -111,9 +94,7 @@ function UploadPage() {
               />
             </div>
             {files[type] && (
-              <p className="text-sm mt-2 text-green-600">
-                {files[type].name} selected
-              </p>
+              <p className="text-sm mt-2 text-green-600">{files[type].name} selected</p>
             )}
           </div>
         ))}
@@ -121,19 +102,17 @@ function UploadPage() {
 
       <button
         onClick={handleUpload}
+        disabled={!Object.values(files).some(Boolean)}
         className={`mt-6 px-6 py-4 w-full max-w-xl bg-gradient-to-r from-blue-700 to-indigo-500 text-white text-lg font-semibold border border-gray-400 hover:brightness-110 transition-all ${
           !Object.values(files).some(Boolean) && "opacity-50 cursor-not-allowed"
         }`}
-        disabled={!Object.values(files).some(Boolean)}
       >
-        UPLOAD FILES
+        Upload Files
       </button>
 
       {downloadLinks.length > 0 && (
         <div className="mt-10 w-full max-w-2xl bg-white rounded p-6 shadow-md border border-blue-300">
-          <h3 className="text-lg font-semibold text-blue-800 mb-4">
-            📥 Download Links
-          </h3>
+          <h3 className="text-lg font-semibold text-blue-800 mb-4">📥 Download Links</h3>
           <ul className="list-disc pl-6 space-y-2">
             {downloadLinks.map((file, idx) => (
               <li key={idx}>

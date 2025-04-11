@@ -1,6 +1,7 @@
-import React, { useState, useEffect, useMemo } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import * as XLSX from "xlsx";
+import { BASE_API_URL } from "./constants";
 
 function DisplayPage() {
   const [data, setData] = useState([]);
@@ -10,57 +11,53 @@ function DisplayPage() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    fetch("/courses_assignment_final_reasoned.xlsx")
-      .then((response) => response.blob())
-      .then((blob) => {
-        const reader = new FileReader();
-        reader.onload = (e) => {
-          const workbook = XLSX.read(e.target.result, { type: "binary" });
-          const sheetName = workbook.SheetNames[0];
-          const sheet = workbook.Sheets[sheetName];
-          const jsonData = XLSX.utils.sheet_to_json(sheet);
-          setData(jsonData);
-        };
-        reader.readAsBinaryString(blob);
-      })
-      .catch((error) => console.error("Error loading Excel file:", error));
+    const fetchData = async () => {
+      try {
+        const res = await fetch(`${BASE_API_URL}/api/match-results/`, {
+          headers: {
+            Accept: "application/json",
+            "ngrok-skip-browser-warning": "true",
+          },
+        });
+
+        const result = await res.json();
+        setData(result.data || []);
+      } catch (err) {
+        console.error("❌ Could not fetch match results:", err);
+      }
+    };
+
+    fetchData();
   }, []);
 
   const filteredData = useMemo(() => {
     return data.filter((row) => {
-      if (filter === "all") return true;
-      if (filter === "grader-to-course") return row["Course Number"] && row["Assigned Grader"];
-      if (filter === "grader-to-professor") return row["Professor Name"] && row["Assigned Grader"];
-      if (filter === "graders-only") return row["Assigned Grader"];
+      if (filter === "grader-to-course") return row.course_number && row.assigned_grader;
+      if (filter === "grader-to-professor") return row.professor_name && row.assigned_grader;
+      if (filter === "graders-only") return row.assigned_grader;
       return true;
     });
   }, [data, filter]);
 
   const columns = useMemo(() => {
-    if (filter === "all") {
-      return ["Course Number", "Professor Name", "Assigned Grader", "Grader Major"];
-    } else if (filter === "grader-to-course") {
-      return ["Course Number", "Assigned Grader"];
-    } else if (filter === "grader-to-professor") {
-      return ["Professor Name", "Assigned Grader"];
-    } else if (filter === "graders-only") {
-      return ["Assigned Grader"];
-    }
-    return [];
+    if (filter === "grader-to-course") return ["course_number", "assigned_grader"];
+    if (filter === "grader-to-professor") return ["professor_name", "assigned_grader"];
+    if (filter === "graders-only") return ["assigned_grader"];
+    return ["course_number", "professor_name", "assigned_grader", "grader_major"];
   }, [filter]);
 
   const downloadFile = (format) => {
     const worksheet = XLSX.utils.json_to_sheet(filteredData);
     const workbook = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(workbook, worksheet, "Sheet1");
-    XLSX.writeFile(workbook, `${fileName}.${format}`);
+    XLSX.writeFile(workbook, `${fileName || "match_results"}.${format}`);
     setShowDownloadPopup(null);
     setFileName("");
   };
 
   return (
     <div className="flex flex-col items-start min-h-screen w-screen bg-gradient-to-b from-blue-300 to-white p-6">
-      <p className="text-2xl font-semibold text-blue-800 mb-4 ml-16">DOWNLOAD RESULT</p>
+      <p className="text-2xl font-semibold text-blue-800 mb-4 ml-16">📊 MATCH RESULTS</p>
 
       <div className="flex w-5/6 gap-12 ml-16">
         <div className="w-4/5">
@@ -117,29 +114,49 @@ function DisplayPage() {
             EDIT TABLE
           </button>
 
-          <button className="w-full py-2 bg-gradient-to-r from-blue-700 to-indigo-500 text-white font-semibold shadow hover:brightness-110 transition mt-8" onClick={() => setShowDownloadPopup("csv")}>
+          <button
+            className="w-full py-2 bg-gradient-to-r from-blue-700 to-indigo-500 text-white font-semibold shadow hover:brightness-110 transition mt-8"
+            onClick={() => setShowDownloadPopup("csv")}
+          >
             DOWNLOAD CSV
           </button>
 
-          <button className="w-full py-2 bg-gradient-to-r from-blue-700 to-indigo-500 text-white font-semibold shadow hover:brightness-110" onClick={() => setShowDownloadPopup("xlsx")}>
+          <button
+            className="w-full py-2 bg-gradient-to-r from-blue-700 to-indigo-500 text-white font-semibold shadow hover:brightness-110"
+            onClick={() => setShowDownloadPopup("xlsx")}
+          >
             DOWNLOAD XLSX
           </button>
         </div>
       </div>
 
       {showDownloadPopup && (
-          <div 
-          className="fixed inset-0 flex justify-center items-center" 
-          style={{ backgroundColor: "rgba(0, 0, 0, 0.2)" }}
-          >        
+        <div className="fixed inset-0 flex justify-center items-center bg-black bg-opacity-20">
           <div className="bg-white p-6 rounded shadow-lg">
-            <h2 className="mb-4">Do you want to save the result file?</h2>
+            <h2 className="mb-4">Save result file as:</h2>
             <div className="mb-4">
-              <input type="text" className="border px-2 py-1" placeholder="File Name" value={fileName} onChange={(e) => setFileName(e.target.value)} />.{showDownloadPopup}
+              <input
+                type="text"
+                className="border px-2 py-1"
+                placeholder="File Name"
+                value={fileName}
+                onChange={(e) => setFileName(e.target.value)}
+              />
+              .{showDownloadPopup}
             </div>
             <div className="flex gap-2 justify-end">
-              <button className="bg-gray-300 px-4 py-2" onClick={() => setShowDownloadPopup(null)}>Cancel</button>
-              <button className="bg-blue-700 text-white px-4 py-2" onClick={() => downloadFile(showDownloadPopup)}>Download</button>
+              <button
+                className="bg-gray-300 px-4 py-2"
+                onClick={() => setShowDownloadPopup(null)}
+              >
+                Cancel
+              </button>
+              <button
+                className="bg-blue-700 text-white px-4 py-2"
+                onClick={() => downloadFile(showDownloadPopup)}
+              >
+                Download
+              </button>
             </div>
           </div>
         </div>
