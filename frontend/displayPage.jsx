@@ -13,14 +13,20 @@ function DisplayPage() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const res = await fetch(`${BASE_API_URL}/api/match-results/`, {
+        const response = await fetch(`${BASE_API_URL}/api/match-results/`, {
+          method: "GET",
           headers: {
             Accept: "application/json",
             "ngrok-skip-browser-warning": "true",
           },
         });
 
-        const result = await res.json();
+        if (!response.ok) {
+          const errorText = await response.text();
+          throw new Error(errorText);
+        }
+
+        const result = await response.json();
         setData(result.data || []);
       } catch (err) {
         console.error("❌ Could not fetch match results:", err);
@@ -40,11 +46,29 @@ function DisplayPage() {
   }, [data, filter]);
 
   const columns = useMemo(() => {
-    if (filter === "grader-to-course") return ["course_number", "assigned_grader"];
-    if (filter === "grader-to-professor") return ["professor_name", "assigned_grader"];
-    if (filter === "graders-only") return ["assigned_grader"];
-    return ["course_number", "professor_name", "assigned_grader", "grader_major"];
+    if (filter === "grader-to-course") return ["course_number", "assigned_grader", "justification"];
+    if (filter === "grader-to-professor") return ["professor_name", "assigned_grader", "justification"];
+    if (filter === "graders-only") return ["assigned_grader", "justification"];
+    return [
+      "course_number",
+      "section",
+      "professor_name",
+      "assigned_grader",
+      "grader_major",
+      "grader_email",
+      "justification"
+    ];
   }, [filter]);
+
+  const columnHeaders = {
+    course_number: "Course Number",
+    section: "Section",
+    professor_name: "Professor Name",
+    assigned_grader: "Assigned Grader",
+    grader_major: "Grader Major",
+    grader_email: "Grader Email",
+    justification: "Reasoning",
+  };
 
   const downloadFile = (format) => {
     const worksheet = XLSX.utils.json_to_sheet(filteredData);
@@ -56,81 +80,77 @@ function DisplayPage() {
   };
 
   return (
-    <div className="flex flex-col items-start min-h-screen w-screen bg-gradient-to-b from-blue-300 to-white p-6">
-      <p className="text-2xl font-semibold text-blue-800 mb-4 ml-16">📊 MATCH RESULTS</p>
-
-      <div className="flex w-5/6 gap-12 ml-16">
-        <div className="w-4/5">
-          <div className="mb-4">
-            <label className="text-sm font-medium text-gray-700 block mb-1">Filter</label>
-            <select
-              className="w-80 px-3 py-2 border border-gray-400 rounded-md bg-white text-black shadow-sm focus:ring-blue-500 focus:border-blue-500"
-              onChange={(e) => setFilter(e.target.value)}
-            >
-              <option value="all">Display all results</option>
-              <option value="grader-to-course">Display grader to course only</option>
-              <option value="grader-to-professor">Display grader to professor only</option>
-              <option value="graders-only">List all graders only</option>
-            </select>
-          </div>
-
-          <div className="bg-white shadow-lg rounded-lg border border-gray-300 w-full">
-            <div className="overflow-y-auto max-h-96">
-              <table className="w-full text-left border-collapse">
-                <thead className="sticky top-0 bg-gray-300">
-                  <tr>
-                    {columns.map((col, index) => (
-                      <th key={index} className="px-4 py-2 border">{col}</th>
-                    ))}
-                  </tr>
-                </thead>
-                <tbody>
-                  {filteredData.length > 0 ? (
-                    filteredData.map((row, index) => (
-                      <tr key={index} className="border hover:bg-gray-100">
-                        {columns.map((col, colIndex) => (
-                          <td key={colIndex} className="px-4 py-2 border">{row[col]}</td>
-                        ))}
-                      </tr>
-                    ))
-                  ) : (
-                    <tr>
-                      <td colSpan={columns.length} className="px-4 py-2 text-center text-gray-500">
-                        No results found.
-                      </td>
-                    </tr>
-                  )}
-                </tbody>
-              </table>
-            </div>
-          </div>
+    <div className="flex flex-col items-center min-h-screen w-screen bg-gradient-to-b from-blue-300 to-white p-6">
+      <div className="flex justify-between items-center w-full max-w-6xl px-6 mb-4">
+        <div className="flex items-center gap-4">
+          <h1 className="text-2xl font-bold text-blue-900">MATCH RESULTS</h1>
+          <select
+            className="px-3 py-2 border border-gray-400 rounded-md bg-white"
+            onChange={(e) => setFilter(e.target.value)}
+          >
+            <option value="all">Display all results</option>
+            <option value="grader-to-course">Display grader to course only</option>
+            <option value="grader-to-professor">Display grader to professor only</option>
+            <option value="graders-only">List all graders only</option>
+          </select>
         </div>
 
-        <div className="flex flex-col gap-6 w-1/4 mt-[80px]">
+        <div className="flex items-center gap-4">
           <button
-            className="w-full py-2 border border-gray-400 bg-white text-gray-800 font-semibold shadow hover:bg-gray-200 transition"
+            className="px-4 py-2 bg-gray-100 border border-gray-400 rounded shadow hover:bg-gray-200"
             onClick={() => navigate("/manual-edit")}
           >
-            EDIT TABLE
+            Edit Table
           </button>
-
           <button
-            className="w-full py-2 bg-gradient-to-r from-blue-700 to-indigo-500 text-white font-semibold shadow hover:brightness-110 transition mt-8"
-            onClick={() => setShowDownloadPopup("csv")}
+            onClick={() => setShowDownloadPopup("menu")}
+            className="px-4 py-2 bg-blue-700 text-white font-semibold rounded-md shadow hover:bg-blue-800"
           >
-            DOWNLOAD CSV
+            Download ▼
           </button>
-
-          <button
-            className="w-full py-2 bg-gradient-to-r from-blue-700 to-indigo-500 text-white font-semibold shadow hover:brightness-110"
-            onClick={() => setShowDownloadPopup("xlsx")}
-          >
-            DOWNLOAD XLSX
-          </button>
+          {showDownloadPopup === "menu" && (
+            <div className="absolute right-0 bg-white border shadow-lg rounded-md z-50">
+              <button className="block px-4 py-2 hover:bg-gray-100" onClick={() => downloadFile("csv")}>Download CSV</button>
+              <button className="block px-4 py-2 hover:bg-gray-100" onClick={() => downloadFile("xlsx")}>Download XLSX</button>
+            </div>
+          )}
         </div>
       </div>
 
-      {showDownloadPopup && (
+      <div className="bg-white shadow-lg rounded-lg border border-gray-300 w-full max-w-[1030px] h-[500px] overflow-auto p-4">
+        <table className="w-full">
+          <thead className="bg-gray-300 sticky top-0">
+            <tr>
+              {columns.map((col, index) => (
+                <th key={index} className="px-4 py-2 border whitespace-nowrap">
+                  {columnHeaders[col] || col}
+                </th>
+              ))}
+            </tr>
+          </thead>
+          <tbody>
+            {filteredData.length > 0 ? (
+              filteredData.map((row, index) => (
+                <tr key={index} className="border hover:bg-gray-100">
+                  {columns.map((col, colIndex) => (
+                    <td key={colIndex} className="px-4 py-2 border whitespace-nowrap">
+                      {row[col]}
+                    </td>
+                  ))}
+                </tr>
+              ))
+            ) : (
+              <tr>
+                <td colSpan={columns.length} className="px-4 py-2 text-center text-gray-500">
+                  No results found.
+                </td>
+              </tr>
+            )}
+          </tbody>
+        </table>
+      </div>
+
+      {showDownloadPopup && showDownloadPopup !== "menu" && (
         <div className="fixed inset-0 flex justify-center items-center bg-black bg-opacity-20">
           <div className="bg-white p-6 rounded shadow-lg">
             <h2 className="mb-4">Save result file as:</h2>

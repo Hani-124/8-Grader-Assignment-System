@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { BASE_API_URL } from "./constants";
 
 function UploadPage() {
   const [files, setFiles] = useState({
@@ -7,10 +8,9 @@ function UploadPage() {
     candidates: null,
     courseInfo: null,
   });
-  const [downloadLinks, setDownloadLinks] = useState([]);
+  const [uploadComplete, setUploadComplete] = useState(false); // ✅ flag to control "Start Assignment"
+  const [fileUploadInProgress, setFileUploadInProgress] = useState(false);
   const navigate = useNavigate();
-
-  const BASE_URL = "https://nearby-lionfish-more.ngrok-free.app";
   const allowedFormats = [".xlsx", ".csv", ".pdf", ".zip"];
 
   const handleFile = (fileList, type) => {
@@ -22,44 +22,55 @@ function UploadPage() {
     }
   };
 
-  const handleUpload = async () => {
-    const newLinks = [];
+  const handleFileUpload = async () => {
+    const formData = new FormData();
+    Object.entries(files).forEach(([key, file]) => {
+      if (file) formData.append(key, file);
+    });
 
-    for (const [key, file] of Object.entries(files)) {
-      if (!file) continue;
+    try {
+      setFileUploadInProgress(true);
+      const response = await fetch(`${BASE_API_URL}/api/process/`, {
+        method: "POST",
+        body: formData,
+      });
 
-      const formData = new FormData();
-      formData.append("file", file);
-      formData.append("type", key);
-
-      try {
-        const response = await fetch(`${BASE_URL}/api/upload/`, {
-          method: "POST",
-          body: formData,
-        });
-
-        const result = await response.json();
-        if (response.ok && result.download_url) {
-          newLinks.push({
-            name: file.name,
-            link: `${BASE_URL}${result.download_url}`,
-          });
-        }
-      } catch (error) {
-        console.error(`❌ Upload error for ${file.name}:`, error);
+      const result = await response.json();
+      if (response.ok) {
+        alert("Files uploaded successfully!");
+        setUploadComplete(true); // ✅ enable "Start Assignment"
+      } else {
+        alert("Upload failed: " + result.error);
       }
+    } catch (error) {
+      console.error("Upload failed:", error);
+      alert("Error uploading files.");
+    } finally {
+      setFileUploadInProgress(false);
     }
+  };
 
-    setDownloadLinks(newLinks);
-    if (newLinks.length) {
-      navigate("/display");
-    } else {
-      alert("No files were uploaded.");
+  const handleStartAssignment = async () => {
+    try {
+      const response = await fetch(`${BASE_API_URL}/api/start-matching/`, {
+        method: "POST",
+      });
+
+      const result = await response.json();
+      if (response.ok) {
+        navigate("/display");
+      } else {
+        alert("Processing failed: " + result.error);
+      }
+    } catch (error) {
+      console.error("Processing failed:", error);
+      alert("Error starting assignment.");
     }
   };
 
   return (
     <div className="flex flex-col justify-center items-center min-h-screen w-screen bg-gradient-to-b from-blue-700 to-white gap-4 p-8">
+      {/* File Upload Cards */}
       <div className="flex flex-row justify-center items-start gap-4">
         {[
           { label: "Upload Resumes", type: "resume" },
@@ -99,38 +110,29 @@ function UploadPage() {
           </div>
         ))}
       </div>
-
+  
+      {/* Upload Button */}
       <button
-        onClick={handleUpload}
-        disabled={!Object.values(files).some(Boolean)}
-        className={`mt-6 px-6 py-4 w-full max-w-xl bg-gradient-to-r from-blue-700 to-indigo-500 text-white text-lg font-semibold border border-gray-400 hover:brightness-110 transition-all ${
-          !Object.values(files).some(Boolean) && "opacity-50 cursor-not-allowed"
+        onClick={handleFileUpload}
+        disabled={!Object.values(files).every(Boolean) || fileUploadInProgress}
+        className={`mt-6 px-6 py-4 w-full max-w-xl bg-blue-700 text-white font-semibold ${
+          (!Object.values(files).every(Boolean) || fileUploadInProgress) && "opacity-50 cursor-not-allowed"
         }`}
       >
-        Upload Files
+        {fileUploadInProgress ? "Uploading..." : "Upload Files"}
       </button>
-
-      {downloadLinks.length > 0 && (
-        <div className="mt-10 w-full max-w-2xl bg-white rounded p-6 shadow-md border border-blue-300">
-          <h3 className="text-lg font-semibold text-blue-800 mb-4">📥 Download Links</h3>
-          <ul className="list-disc pl-6 space-y-2">
-            {downloadLinks.map((file, idx) => (
-              <li key={idx}>
-                <a
-                  href={file.link}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-blue-600 underline hover:text-blue-800"
-                >
-                  {file.name}
-                </a>
-              </li>
-            ))}
-          </ul>
-        </div>
+  
+      {/* Start Assignment Button */}
+      {uploadComplete && (
+        <button
+          onClick={handleStartAssignment}
+          className="mt-4 px-6 py-4 w-full max-w-xl bg-green-600 text-white font-semibold hover:bg-green-700 transition-all"
+        >
+          ✅ Start Assignment
+        </button>
       )}
     </div>
   );
-}
 
+}
 export default UploadPage;

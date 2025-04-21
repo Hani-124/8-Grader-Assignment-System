@@ -133,21 +133,22 @@ function ManualEditPage() {
         <table className="w-full">
           <thead className="bg-gray-300 sticky top-0">
             <tr>
-              {["Course Number", "Professor Name", "Assigned Grader", "Grader Major", "Grader Email", "Justification", "Edit"].map((header) => (
-                <th key={header} className="border px-4 py-2">{header}</th>
+              {["Course Number", "Section", "Professor Name", "Assigned Grader", "Grader Major", "Grader Email", "Justification", "Edit"].map((header) => (
+                <th key={header} className="border px-4 py-2 whitespace-nowrap">{header}</th>
               ))}
             </tr>
           </thead>
           <tbody>
             {sortedData().map((row, index) => (
               <tr key={index} className="border">
-                <td className="border px-4 py-2">{row.course_number}</td>
-                <td className="border px-4 py-2">{row.professor_name}</td>
-                <td className="border px-4 py-2">{row.assigned_grader}</td>
-                <td className="border px-4 py-2">{row.grader_major}</td>
-                <td className="border px-4 py-2">{row.grader_email}</td>
-                <td className="border px-4 py-2">{row.justification}</td>
-                <td className="border px-4 py-2 text-center">
+                <td className="border px-4 py-2 whitespace-nowrap">{row.course_number}</td>
+                <td className="border px-4 py-2 whitespace-nowrap">{row.section}</td>
+                <td className="border px-4 py-2 whitespace-nowrap">{row.professor_name}</td>
+                <td className="border px-4 py-2 whitespace-nowrap">{row.assigned_grader}</td>
+                <td className="border px-4 py-2 whitespace-nowrap">{row.grader_major}</td>
+                <td className="border px-4 py-2 whitespace-nowrap">{row.grader_email}</td>
+                <td className="border px-4 py-2 whitespace-nowrap">{row.justification}</td>
+                <td className="border px-4 py-2 whitespace-nowrap text-center">
                   <button onClick={() => openEditPopup(row, index)} className="text-blue-500 font-bold">✏️</button>
                 </td>
               </tr>
@@ -166,7 +167,7 @@ function ManualEditPage() {
               ✖️
             </button>
             <div className="grid grid-cols-2 gap-x-8 gap-y-6">
-            <div className="flex items-center">
+              <div className="flex items-center">
                 <label className="text-blue-900 font-semibold w-40">Professor Name:</label>
                 <input
                   className="border px-3 py-1 rounded flex-1 bg-gray-100 text-gray-700 cursor-not-allowed"
@@ -183,6 +184,16 @@ function ManualEditPage() {
                   type="text"
                   name="course_number"
                   value={currentRow["course_number"] || ""}
+                  disabled
+                />
+              </div>
+              <div className="flex items-center">
+                <label className="text-blue-900 font-semibold w-40">Section:</label>
+                <input
+                  className="border px-3 py-1 rounded flex-1 bg-gray-100 text-gray-700 cursor-not-allowed"
+                  type="text"
+                  name="section"
+                  value={currentRow["section"] || ""}
                   disabled
                 />
               </div>
