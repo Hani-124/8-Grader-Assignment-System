@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import * as XLSX from "xlsx";
 import { BASE_API_URL } from "./constants";
 
@@ -9,6 +9,7 @@ function ManualEditPage() {
   const [currentRow, setCurrentRow] = useState({});
   const [currentRowIndex, setCurrentRowIndex] = useState(null);
   const [downloadMenuOpen, setDownloadMenuOpen] = useState(false);
+  const downloadMenuRef = useRef(null);
 
   useEffect(() => {
     fetch(`${BASE_API_URL}/api/match-results/`, {
@@ -19,11 +20,26 @@ function ManualEditPage() {
     })
       .then((res) => res.json())
       .then((result) => {
-        console.log("📦 Match Results From Backend:", result.data);
         setData(result.data || []);
       })
       .catch((err) => console.error("❌ Error loading match data:", err));
   }, []);
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (downloadMenuRef.current && !downloadMenuRef.current.contains(event.target)) {
+        setDownloadMenuOpen(false);
+      }
+    };
+    if (downloadMenuOpen) {
+      document.addEventListener("mousedown", handleClickOutside);
+    } else {
+      document.removeEventListener("mousedown", handleClickOutside);
+    }
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [downloadMenuOpen]);
 
   const sortedData = () => {
     const sorter = {
@@ -89,39 +105,34 @@ function ManualEditPage() {
       alert("Failed to save changes.");
       console.error(err);
     }
-
     setEditPopup(false);
   };
 
   return (
-    <div className="flex flex-col items-center min-h-screen w-screen bg-gradient-to-b from-blue-300 to-white p-6">
-      <div className="flex justify-between items-center w-full max-w-6xl px-6 mb-4">
-        <div className="flex items-center gap-4">
-          <h1 className="text-2xl font-bold text-blue-900">MANUAL EDIT</h1>
-          <select
-            className="px-3 py-2 border border-gray-400 rounded-md bg-white"
-            onChange={(e) => setSortOrder(e.target.value)}
-          >
-            <option value="default">List order</option>
-            <option value="professor">Professor Alphabetical Order</option>
-            <option value="course">Course # Numerical Order</option>
-            <option value="grader">Grader Major Alphabetical Order</option>
-          </select>
+    <div className="flex flex-col items-center min-h-screen w-screen bg-white p-6">
+      {/* Title */}
+      <div className="w-full max-w-6xl flex justify-between items-center mb-6">
+        <div className="border-l-4 border-blue-600 pl-4">
+          <h1 className="text-4xl font-extrabold text-gray-800 leading-snug tracking-tight">
+            Manual Edit
+          </h1>
+          <p className="text-gray-500 text-sm mt-1">
+            View and edit assigned grader matches manually.
+          </p>
         </div>
-
-        <div className="relative z-50">
+        <div className="relative z-50" ref={downloadMenuRef}>
           <button
             onClick={() => setDownloadMenuOpen(!downloadMenuOpen)}
-            className="px-4 py-2 bg-blue-700 text-white font-semibold rounded-md shadow hover:bg-blue-800"
+            className="px-6 py-1.5 bg-blue-700 text-white font-semibold rounded-sm shadow hover:bg-blue-800"
           >
             Download ▼
           </button>
           {downloadMenuOpen && (
-            <div className="absolute right-0 bg-white border shadow-lg rounded-md z-50">
-              <button className="block px-4 py-2 hover:bg-gray-100" onClick={downloadCSV}>
+            <div className="absolute top-full right-0 mt-2 bg-white border border-gray-300 shadow-lg rounded-md z-50">
+              <button className="block w-full text-left px-4 py-2 hover:bg-gray-100 text-sm font-medium" onClick={downloadCSV}>
                 Download CSV
               </button>
-              <button className="block px-4 py-2 hover:bg-gray-100" onClick={downloadXLSX}>
+              <button className="block w-full text-left px-4 py-2 hover:bg-gray-100 text-sm font-medium" onClick={downloadXLSX}>
                 Download XLSX
               </button>
             </div>
@@ -129,63 +140,83 @@ function ManualEditPage() {
         </div>
       </div>
 
-      <div className="bg-white shadow-lg rounded-lg border border-gray-300 w-full max-w-[1030px] h-[500px] overflow-auto p-4">
-        <table className="w-full">
-          <thead className="bg-gray-300 sticky top-0">
-            <tr>
-              {["Course Number", "Professor Name", "Assigned Grader", "Grader Major", "Grader Email", "Justification", "Edit"].map((header) => (
-                <th key={header} className="border px-4 py-2">{header}</th>
+      {/* Dropdown */}
+      <div className="w-full max-w-6xl flex justify-start mb-8">
+        <select
+          className="px-3 py-2 border border-gray-300 rounded-md bg-white"
+          onChange={(e) => setSortOrder(e.target.value)}
+        >
+          <option value="default">List order</option>
+          <option value="professor">Professor Alphabetical Order</option>
+          <option value="course">Course # Numerical Order</option>
+          <option value="grader">Grader Major Alphabetical Order</option>
+        </select>
+      </div>
+
+      {/* Table */}
+      <div className="bg-white shadow-xl rounded-2xl border border-gray-300 w-full max-w-[1150px] h-[700px] overflow-auto p-4">
+        <table className="w-full text-sm text-gray-700">
+          <thead>
+            <tr className="bg-gray-200 text-gray-700 text-sm font-semibold">
+              {["Course Number", "Section", "Professor Name", "Assigned Grader", "Grader Major", "Grader Email", "Justification", "Edit"].map((header, index) => (
+                <th
+                  key={header}
+                  className={`px-6 py-3 border-b border-gray-300 text-left ${
+                    index === 0 ? "rounded-tl-lg" : ""
+                  } ${index === 7 ? "rounded-tr-lg sticky right-0 bg-gray-200" : ""}`}
+                >
+                  {header}
+                </th>
               ))}
             </tr>
           </thead>
           <tbody>
-            {sortedData().map((row, index) => (
-              <tr key={index} className="border">
-                <td className="border px-4 py-2">{row.course_number}</td>
-                <td className="border px-4 py-2">{row.professor_name}</td>
-                <td className="border px-4 py-2">{row.assigned_grader}</td>
-                <td className="border px-4 py-2">{row.grader_major}</td>
-                <td className="border px-4 py-2">{row.grader_email}</td>
-                <td className="border px-4 py-2">{row.justification}</td>
-                <td className="border px-4 py-2 text-center">
-                  <button onClick={() => openEditPopup(row, index)} className="text-blue-500 font-bold">✏️</button>
+            {sortedData().length > 0 ? (
+              sortedData().map((row, index) => (
+                <tr key={index} className="border-b border-gray-200 hover:bg-gray-100 transition">
+                  <td className="px-6 py-4 whitespace-nowrap">{row.course_number}</td>
+                  <td className="px-6 py-4 whitespace-nowrap">{row.section}</td>
+                  <td className="px-6 py-4 whitespace-nowrap">{row.professor_name}</td>
+                  <td className="px-6 py-4 whitespace-nowrap">{row.assigned_grader}</td>
+                  <td className="px-6 py-4 whitespace-nowrap">{row.grader_major}</td>
+                  <td className="px-6 py-4 whitespace-nowrap">{row.grader_email}</td>
+                  <td className="px-6 py-4 whitespace-nowrap">{row.justification}</td>
+                  <td className="px-6 py-4 whitespace-nowrap sticky right-0 bg-white text-center">
+                    <button
+                      onClick={() => openEditPopup(row, index)}
+                      className="text-blue-500 hover:text-blue-700 font-bold"
+                    >
+                      ✏️
+                    </button>
+                  </td>
+                </tr>
+              ))
+            ) : (
+              <tr>
+                <td colSpan={8} className="px-6 py-20 text-center text-gray-400 font-medium">
+                  No results found.
                 </td>
               </tr>
-            ))}
+            )}
           </tbody>
         </table>
       </div>
 
+      {/* Edit Popup */}
       {editPopup && (
-        <div className="fixed inset-0 flex justify-center items-center" style={{ backgroundColor: "rgba(255, 255, 255, 0.4)" }}>
+        <div className="fixed inset-0 flex justify-center items-center bg-black bg-opacity-50 z-50">
           <div className="bg-gradient-to-br from-blue-100 to-white p-8 rounded shadow-2xl w-[700px] relative">
             <button
               onClick={() => setEditPopup(false)}
-              className="absolute top-3 left-3 border border-gray-500 rounded p-1 text-gray-600 hover:text-gray-900"
+              className="absolute top-3 right-3 text-gray-400 hover:text-gray-700"
             >
               ✖️
             </button>
+            <h2 className="text-2xl font-bold mb-6 text-center text-blue-700">Edit Row</h2>
             <div className="grid grid-cols-2 gap-x-8 gap-y-6">
-            <div className="flex items-center">
-                <label className="text-blue-900 font-semibold w-40">Professor Name:</label>
-                <input
-                  className="border px-3 py-1 rounded flex-1 bg-gray-100 text-gray-700 cursor-not-allowed"
-                  type="text"
-                  name="professor_name"
-                  value={currentRow["professor_name"] || ""}
-                  disabled
-                />
-              </div>
-              <div className="flex items-center">
-                <label className="text-blue-900 font-semibold w-40">Course #:</label>
-                <input
-                  className="border px-3 py-1 rounded flex-1 bg-gray-100 text-gray-700 cursor-not-allowed"
-                  type="text"
-                  name="course_number"
-                  value={currentRow["course_number"] || ""}
-                  disabled
-                />
-              </div>
+              <Field name="professor_name" label="Professor Name" currentRow={currentRow} disabled />
+              <Field name="course_number" label="Course #" currentRow={currentRow} disabled />
+              <Field name="section" label="Section" currentRow={currentRow} disabled />
               <Field name="assigned_grader" label="Grader Name" currentRow={currentRow} handleInputChange={handleInputChange} />
               <Field name="grader_major" label="Grader Major" currentRow={currentRow} handleInputChange={handleInputChange} />
               <div className="col-span-2">
@@ -194,7 +225,7 @@ function ManualEditPage() {
               <div className="flex flex-col col-span-2">
                 <label className="text-blue-900">Justification:</label>
                 <textarea
-                  className="border px-3 py-2 rounded h-32"
+                  className="border px-3 py-2 rounded h-32 w-full"
                   name="justification"
                   value={currentRow["justification"] || ""}
                   onChange={handleInputChange}
@@ -216,15 +247,16 @@ function ManualEditPage() {
   );
 }
 
-const Field = ({ name, label, currentRow, handleInputChange, wide }) => (
-  <div className={`flex items-center ${wide ? "w-full" : ""}`}>
+const Field = ({ name, label, currentRow, handleInputChange, wide, disabled }) => (
+  <div className={`flex items-center ${wide ? "col-span-2" : ""}`}>
     <label className="text-blue-900 font-semibold w-40">{label || name}:</label>
     <input
-      className="border px-3 py-1 rounded flex-1"
+      className="border px-3 py-1 rounded flex-1 bg-gray-100 text-gray-700"
       type="text"
       name={name}
       value={currentRow[name] || ""}
       onChange={handleInputChange}
+      disabled={disabled}
     />
   </div>
 );
